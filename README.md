@@ -16,4 +16,9 @@ chmod -R 777 runner_data
 docker compose up -d
 ```
 
+bash
+```bash
+bash <(curl -sL https://git.lgbt/gitlgbt/runner_deploy/raw/branch/main/install.sh)
+```
+
 all runner is tag `ubuntu-latest`
