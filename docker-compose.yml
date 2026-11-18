@@ -1,0 +1,157 @@
+services:
+  docker-in-docker:
+    image: docker:dind
+    privileged: true
+    restart: unless-stopped
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    command: ["--host=tcp://0.0.0.0:2375"]
+    volumes:
+      - docker_certs:/certs/client
+      - docker_storage:/var/lib/docker
+
+  # Automatically cleans up unused Docker cache and stopped containers every 24 hours
+  docker-cleaner:
+    image: docker:cli
+    restart: unless-stopped
+    depends_on:
+      - docker-in-docker
+    environment:
+      DOCKER_HOST: tcp://docker-in-docker:2375
+    command: >
+      sh -c '
+        while true; do
+          echo "Running scheduled Docker system prune..."
+          docker system prune -f --volumes --filter "until=48h"
+          sleep 86400
+        done
+      '
+
+  runner-1:
+    container_name: gitlgbt_runner_1
+    image: git.lgbt/gitlgbt/runner:13
+    restart: unless-stopped
+    depends_on:
+      - docker-in-docker
+    environment:
+      DOCKER_HOST: tcp://docker-in-docker:2375
+      FORGEJO_INSTANCE_URL: ${FORGEJO_INSTANCE_URL}
+      FORGEJO_RUNNER_TOKEN: ${FORGEJO_RUNNER_TOKEN}
+    volumes:
+      - ./runner_data/runner_data_1:/data
+    command: >
+      sh -c '
+        sleep 5;
+        if [ ! -f /data/.runner ]; then
+          forgejo-runner register --no-interactive \
+            --instance "$FORGEJO_INSTANCE_URL" \
+            --token "$FORGEJO_RUNNER_TOKEN" \
+            --name gitlgbt_runner_1 \
+            --labels ubuntu-latest:docker://node:24-bookworm;
+        fi &&
+        forgejo-runner daemon
+      '
+
+  runner-2:
+    container_name: gitlgbt_runner_2
+    image: git.lgbt/gitlgbt/runner:13
+    restart: unless-stopped
+    depends_on:
+      - docker-in-docker
+    environment:
+      DOCKER_HOST: tcp://docker-in-docker:2375
+      FORGEJO_INSTANCE_URL: ${FORGEJO_INSTANCE_URL}
+      FORGEJO_RUNNER_TOKEN: ${FORGEJO_RUNNER_TOKEN}
+    volumes:
+      - ./runner_data/runner_data_2:/data
+    command: >
+      sh -c '
+        sleep 5;
+        if [ ! -f /data/.runner ]; then
+          forgejo-runner register --no-interactive \
+            --instance "$FORGEJO_INSTANCE_URL" \
+            --token "$FORGEJO_RUNNER_TOKEN" \
+            --name gitlgbt_runner_2 \
+            --labels ubuntu-latest:docker://node:24-bookworm;
+        fi &&
+        forgejo-runner daemon
+      '
+
+  runner-3:
+    container_name: gitlgbt_runner_3
+    image: git.lgbt/gitlgbt/runner:13
+    restart: unless-stopped
+    depends_on:
+      - docker-in-docker
+    environment:
+      DOCKER_HOST: tcp://docker-in-docker:2375
+      FORGEJO_INSTANCE_URL: ${FORGEJO_INSTANCE_URL}
+      FORGEJO_RUNNER_TOKEN: ${FORGEJO_RUNNER_TOKEN}
+    volumes:
+      - ./runner_data/runner_data_3:/data
+    command: >
+      sh -c '
+        sleep 5;
+        if [ ! -f /data/.runner ]; then
+          forgejo-runner register --no-interactive \
+            --instance "$FORGEJO_INSTANCE_URL" \
+            --token "$FORGEJO_RUNNER_TOKEN" \
+            --name gitlgbt_runner_3 \
+            --labels ubuntu-latest:docker://node:24-bookworm;
+        fi &&
+        forgejo-runner daemon
+      '
+
+  runner-4:
+    container_name: gitlgbt_runner_4
+    image: git.lgbt/gitlgbt/runner:13
+    restart: unless-stopped
+    depends_on:
+      - docker-in-docker
+    environment:
+      DOCKER_HOST: tcp://docker-in-docker:2375
+      FORGEJO_INSTANCE_URL: ${FORGEJO_INSTANCE_URL}
+      FORGEJO_RUNNER_TOKEN: ${FORGEJO_RUNNER_TOKEN}
+    volumes:
+      - ./runner_data/runner_data_4:/data
+    command: >
+      sh -c '
+        sleep 5;
+        if [ ! -f /data/.runner ]; then
+          forgejo-runner register --no-interactive \
+            --instance "$FORGEJO_INSTANCE_URL" \
+            --token "$FORGEJO_RUNNER_TOKEN" \
+            --name gitlgbt_runner_4 \
+            --labels ubuntu-latest:docker://node:24-bookworm;
+        fi &&
+        forgejo-runner daemon
+      '
+
+  runner-5:
+    container_name: gitlgbt_runner_5
+    image: git.lgbt/gitlgbt/runner:13
+    restart: unless-stopped
+    depends_on:
+      - docker-in-docker
+    environment:
+      DOCKER_HOST: tcp://docker-in-docker:2375
+      FORGEJO_INSTANCE_URL: ${FORGEJO_INSTANCE_URL}
+      FORGEJO_RUNNER_TOKEN: ${FORGEJO_RUNNER_TOKEN}
+    volumes:
+      - ./runner_data/runner_data_5:/data
+    command: >
+      sh -c '
+        sleep 5;
+        if [ ! -f /data/.runner ]; then
+          forgejo-runner register --no-interactive \
+            --instance "$FORGEJO_INSTANCE_URL" \
+            --token "$FORGEJO_RUNNER_TOKEN" \
+            --name gitlgbt_runner_5 \
+            --labels ubuntu-latest:docker://node:24-bookworm;
+        fi &&
+        forgejo-runner daemon
+      '
+
+volumes:
+  docker_certs:
+  docker_storage:
