@@ -1,0 +1,20 @@
+log:
+  level: info
+
+runner:
+  file: .runner
+  capacity: 1         
+  timeout: 3h         
+  fetch_timeout: 5s
+  fetch_interval: 2s
+
+cache:
+  enabled: false      
+
+container:
+  privileged: false          
+  docker_host: "unix:///run/user/1000/docker.sock"   
+  valid_volumes: []           
+  force_pull: false
+  # limit
+  options: "--memory=8g --memory-swap=8g --cpus=4 --pids-limit=4096 --cap-drop=NET_RAW --security-opt=no-new-privileges"

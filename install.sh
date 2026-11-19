@@ -12,6 +12,7 @@ cd "$RUNNER_DIR"
 BASE_URL="https://git.lgbt/gitlgbt/runner_deploy/raw/branch/main"
 
 curl -sL "$BASE_URL/docker-compose.yml" -o docker-compose.yml
+curl -sL "$BASE_URL/config.yml" -o config.yml
 
 curl -sL "$BASE_URL/.env.example" -o .env
 
