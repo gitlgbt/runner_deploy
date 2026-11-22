@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://git.lgbt/gitlgbt/branding/raw/branch/main/svg/gitlgbtinfra.svg" alt="gitlgbt infra Logo" width="192" />
+  <img src="https://usercontent.git.lgbt/gitlgbt/org/main/branding/svg/infra.svg" alt="gitlgbt infra Logo" width="192" />
   <h1>gitlgbt/runner_deploy</h1>
   <p><strong>this repo is docker compose for deploying git runner for  <a href="https://git.lgbt">git.lgbt</a></strong></p>
 </div>
